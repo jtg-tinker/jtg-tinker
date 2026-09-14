@@ -137,7 +137,7 @@ function renderList() {
       <div class="meta">
         <span class="sev sev-${incident.severity}">${incident.severity}</span>
         <span class="${incident.status === 'resolved' ? 'status-resolved' : ''}">${incident.status}</span>
-        <span>${durationSince(incident.declaredAt, incident.resolvedAt)}</span>
+        <span class="duration" data-id="${incident.id}">${durationSince(incident.declaredAt, incident.resolvedAt)}</span>
       </div>`;
     item.querySelector('.title').textContent = incident.title;
     item.addEventListener('click', () => {
@@ -166,7 +166,8 @@ function renderDetail() {
       <button class="secondary" id="delete-btn" type="button" style="width:auto">Delete</button>
     </div>
     <p class="badge" style="display:inline-block;margin-top:8px">
-      declared ${formatTime(incident.declaredAt)} · open ${durationSince(incident.declaredAt, incident.resolvedAt)}
+      declared ${formatTime(incident.declaredAt)} · open
+      <span class="duration" data-id="${incident.id}">${durationSince(incident.declaredAt, incident.resolvedAt)}</span>
     </p>
 
     <div class="grid-3" style="margin-top:8px">
@@ -265,6 +266,13 @@ function renderDetail() {
   });
 }
 
+function refreshDurations() {
+  for (const node of document.querySelectorAll('.duration')) {
+    const incident = state.incidents.find((i) => i.id === node.dataset.id);
+    if (incident) node.textContent = durationSince(incident.declaredAt, incident.resolvedAt);
+  }
+}
+
 function render() {
   const active = state.incidents.filter((i) => i.status !== 'resolved').length;
   el.activeCount.textContent = `${active} active`;
@@ -313,5 +321,7 @@ el.importFile.addEventListener('change', async () => {
   }
   el.importFile.value = '';
 });
+
+setInterval(refreshDurations, 10000);
 
 loadIncidents().then(render);

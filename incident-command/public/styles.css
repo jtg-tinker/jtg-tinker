@@ -18,6 +18,7 @@
 
 body {
   margin: 0;
+  overflow-wrap: anywhere;
   background: var(--bg);
   color: var(--text);
   font: 15px/1.5 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
@@ -48,13 +49,14 @@ header h1 { font-size: 18px; margin: 0; letter-spacing: 0.4px; }
 
 main {
   display: grid;
-  grid-template-columns: 340px 1fr;
+  grid-template-columns: 340px minmax(0, 1fr);
   gap: 16px;
   padding: 16px 20px 40px;
   align-items: start;
 }
 
 .panel {
+  min-width: 0;
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: 10px;
@@ -89,7 +91,7 @@ button.secondary { background: var(--panel-2); border-color: var(--border); font
 button:hover { filter: brightness(1.1); }
 
 .row { display: flex; gap: 8px; }
-.row > * { flex: 1; }
+.row > * { flex: 1; min-width: 0; }
 
 .incident-list { display: flex; flex-direction: column; gap: 8px; max-height: 60vh; overflow: auto; }
 
@@ -103,7 +105,7 @@ button:hover { filter: brightness(1.1); }
 
 .incident-item.active { border-color: var(--accent); }
 
-.incident-item .title { font-weight: 600; }
+.incident-item .title { font-weight: 600; overflow-wrap: anywhere; }
 .incident-item .meta { font-size: 12px; color: var(--muted); display: flex; gap: 8px; margin-top: 4px; }
 
 .sev { font-weight: 700; }
@@ -115,12 +117,14 @@ button:hover { filter: brightness(1.1); }
 .status-resolved { color: var(--ok); }
 
 .detail-head { display: flex; align-items: flex-start; gap: 12px; }
-.detail-head h2 { color: var(--text); font-size: 20px; text-transform: none; letter-spacing: 0; margin: 0; }
+.detail-head h2 { color: var(--text); font-size: 20px; text-transform: none; letter-spacing: 0; margin: 0; min-width: 0; overflow-wrap: anywhere; }
+.detail-head button { flex: 0 0 auto; }
 
-.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.grid-3 > * { min-width: 0; }
 
 .timeline { list-style: none; padding: 0; margin: 12px 0 0; display: flex; flex-direction: column; gap: 10px; }
-.timeline li { border-left: 2px solid var(--border); padding: 0 0 0 12px; }
+.timeline li { border-left: 2px solid var(--border); padding: 0 0 0 12px; overflow-wrap: anywhere; }
 .timeline time { display: block; font-size: 12px; color: var(--muted); }
 .timeline .kind { font-size: 11px; text-transform: uppercase; letter-spacing: 0.6px; color: var(--accent); }
 
