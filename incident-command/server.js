@@ -37,9 +37,16 @@ function writeStore(store) {
   fs.writeFileSync(DATA_FILE, JSON.stringify(store, null, 2));
 }
 
+const CORS_HEADERS = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, PUT, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type',
+};
+
 function sendJson(res, status, body) {
   const payload = JSON.stringify(body);
   res.writeHead(status, {
+    ...CORS_HEADERS,
     'Content-Type': 'application/json; charset=utf-8',
     'Content-Length': Buffer.byteLength(payload),
     'Cache-Control': 'no-store',
@@ -98,6 +105,11 @@ function serveStatic(req, res) {
 }
 
 async function handleApi(req, res) {
+  if (req.method === 'OPTIONS') {
+    res.writeHead(204, CORS_HEADERS).end();
+    return;
+  }
+
   const store = readStore();
 
   if (req.method === 'GET') {
