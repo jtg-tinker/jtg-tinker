@@ -2,7 +2,6 @@
 - 👀 I’m interested in coding more and automation
 - 🌱 I’m currently learning node.js
 - 💞️ I’m looking to collaborate on CLI tools used for crypto and finance, as well as IoT projects for your home appliances.
-- 
 - 📫 How to reach me - email - jason.t.guy@gmail.com
 
 <!---
